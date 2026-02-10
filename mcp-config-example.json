@@ -1,0 +1,18 @@
+{
+    "mcpServers": {
+        "lichess-http-mcp-server": {
+            "url": "http://localhost:8000/sse",
+            "type": "http"
+        },
+        "lichess-stdio-mcp-server": {
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "D:/git/lichess-analysis/scripts/start-mcp-stdio.ps1"
+            ],
+            "type": "stdio"
+        }
+    }
+}
