@@ -13,8 +13,10 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 LICHESS_TOKEN = os.getenv("LICHESS_API_TOKEN")
-if not LICHESS_TOKEN or LICHESS_TOKEN == "your_token_here":
-    logger.warning("LICHESS_API_TOKEN is not set or still has the placeholder value.")
+if LICHESS_TOKEN:
+    logger.info("LICHESS_API_TOKEN loaded from environment.")
+elif not LICHESS_TOKEN or LICHESS_TOKEN == "your_token_here":
+    logger.warning("LICHESS_API_TOKEN is not set or still has the placeholder value. Some tools may not work.")
 
 # Create FastMCP instance
 mcp = FastMCP("Lichess")

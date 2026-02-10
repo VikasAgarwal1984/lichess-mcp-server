@@ -17,17 +17,19 @@ A comprehensive Model Context Protocol (MCP) server for the Lichess.org API.
    .\scripts\build.ps1
    ```
 3. Setup Authentication:
-   - This project uses a `.env` file for security.
-   - Open `.env` and replace `your_token_here` with your Lichess Personal Access Token.
+   - **Option A (Recommended for MCP Clients)**: Pass the token via your client's `env` configuration (e.g., in VS Code `mcp.json`). This is more secure and flexible.
+   - **Option B (.env file)**: Create a `.env` file in the project root and add `LICHESS_API_TOKEN=your_token_here`.
    - Create a token at [lichess.org/account/oauth/token](https://lichess.org/account/oauth/token).
    - **Recommended Scopes**: `preference:read`, `challenge:write`, `board:play`, `study:read`.
 4. Run the server:
-   - **Default (Stdio)**: `.\scripts\start.ps1`
-   - **Advanced (Stdio/SSE)**: `.\scripts\start-mcp-server.ps1 -Transport sse -Port 8000`
+   - **Stdio (Local)**: `.\scripts\start-mcp-stdio.ps1`
+   - **HTTP (SSE)**: `.\scripts\start-mcp-http.ps1`
 
 ## Transport Options
-- **Stdio**: Standard way for local integration with Claude Desktop.
-- **SSE (HTTP)**: Exposes the server over HTTP (SSE) at `/sse` and `/messages`.
+- **Stdio**: Standard for local IDE integration (Claude Desktop, VS Code).
+- **SSE (HTTP)**: Use this if you want to host the server centrally.
+  1. Start the server: `.\scripts\start-mcp-http.ps1`
+  2. Use the `url` config in your client (see `mcp-config-example.json`).
 
 ### Claude Desktop Configuration
 To use this server with Claude Desktop, you can refer to the [mcp-config-example.json](./mcp-config-example.json) file or add the following to your `claude_desktop_config.json`:
@@ -41,14 +43,17 @@ To use this server with Claude Desktop, you can refer to the [mcp-config-example
         "-ExecutionPolicy",
         "Bypass",
         "-File",
-        "{PathToClonedRepo}/scripts/start-mcp-stdio.ps1"
-      ]
+        "{PathToProject}/scripts/start-mcp-stdio.ps1"
+      ],
+      "env": {
+        "LICHESS_API_TOKEN": "your_token_here"
+      }
     }
   }
 }
 ```
 > [!IMPORTANT]
-> Make sure to use the absolute path to `start-mcp-stdio.ps1`.
+> Make sure to replace `{PathToProject}` with the absolute path to your cloned repository.
 
 ## Key Features
 - **Rate Limiting**: Automatic 1s delay between requests and 60s pause on 429 errors.

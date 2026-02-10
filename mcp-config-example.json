@@ -10,8 +10,11 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "D:/git/lichess-analysis/scripts/start-mcp-stdio.ps1"
+                "{PathToProject}/scripts/start-mcp-stdio.ps1"
             ],
+            "env": {
+                "LICHESS_API_TOKEN": "your_token_here"
+            },
             "type": "stdio"
         }
     }
